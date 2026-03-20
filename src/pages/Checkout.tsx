@@ -41,8 +41,9 @@ const Checkout = () => {
     landmark: "",
   });
 
-  const deliveryFee = totalPrice >= 499 ? 0 : 40;
+  const deliveryFee = getDeliveryFee(totalPrice);
   const grandTotal = totalPrice + deliveryFee;
+  const deliveryMsg = getDeliveryMessage(totalPrice);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
