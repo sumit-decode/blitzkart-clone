@@ -222,8 +222,8 @@ const Checkout = () => {
                       {deliveryFee === 0 ? "FREE" : `₹${deliveryFee}`}
                     </span>
                   </div>
-                  {deliveryFee > 0 && (
-                    <p className="text-xs text-muted-foreground">Free delivery on orders ≥ ₹499</p>
+                  {deliveryMsg && (
+                    <p className={`text-xs ${isNavratriActive() ? "text-orange-500 font-medium" : "text-muted-foreground"}`}>{deliveryMsg}</p>
                   )}
                   <Separator />
                   <div className="flex justify-between font-heading font-bold text-foreground text-base pt-1">
