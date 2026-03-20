@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCart } from "@/contexts/CartContext";
 import { useOrders } from "@/contexts/OrderContext";
+import { getDeliveryFee, getDeliveryMessage, isNavratriActive } from "@/lib/delivery";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
