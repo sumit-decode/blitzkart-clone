@@ -65,45 +65,47 @@ const AdminProducts = () => {
         <TabsContent value="darkstores" className="space-y-4 mt-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {stockData.map((ds) => (
-              <Card key={ds.id} className="hover:shadow-md transition-shadow">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base flex items-center justify-between">
-                    <span className="flex items-center gap-2">
-                      <Warehouse className="h-4 w-4 text-primary" />
-                      {ds.name}
-                    </span>
-                    <Badge variant="outline" className="text-xs">{ds.id}</Badge>
-                  </CardTitle>
-                  <p className="text-xs text-muted-foreground">{ds.area}, {ds.city}</p>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Total Products</span>
-                    <span className="font-semibold">{ds.totalProducts}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Total Stock</span>
-                    <span className="font-semibold">{ds.totalStock.toLocaleString()} units</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Low Stock (&lt;20)</span>
-                    <span className={`font-semibold ${ds.lowStock > 0 ? "text-destructive" : "text-green-600"}`}>
-                      {ds.lowStock} items
-                    </span>
-                  </div>
-                  <div className="pt-2 border-t border-border space-y-1.5">
-                    <p className="text-xs font-medium text-muted-foreground flex items-center gap-1">
-                      <BarChart3 className="h-3 w-3" /> Category Breakdown
-                    </p>
-                    {ds.categoryBreakdown.map((cb) => (
-                      <div key={cb.category} className="flex justify-between text-xs">
-                        <span className="text-muted-foreground">{cb.category}</span>
-                        <span className="font-medium">{cb.count} products · {cb.stock} units</span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+              <Link key={ds.id} to={`/admin/products/${ds.id}`} className="block">
+                <Card className="hover:shadow-md hover:border-primary/40 transition-all cursor-pointer group">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base flex items-center justify-between">
+                      <span className="flex items-center gap-2">
+                        <Warehouse className="h-4 w-4 text-primary" />
+                        {ds.name}
+                      </span>
+                      <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                    </CardTitle>
+                    <p className="text-xs text-muted-foreground">{ds.area}, {ds.city} · {ds.id}</p>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Total Products</span>
+                      <span className="font-semibold">{ds.totalProducts}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Total Stock</span>
+                      <span className="font-semibold">{ds.totalStock.toLocaleString()} units</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Low Stock (&lt;20)</span>
+                      <span className={`font-semibold ${ds.lowStock > 0 ? "text-destructive" : "text-green-600"}`}>
+                        {ds.lowStock} items
+                      </span>
+                    </div>
+                    <div className="pt-2 border-t border-border space-y-1.5">
+                      <p className="text-xs font-medium text-muted-foreground flex items-center gap-1">
+                        <BarChart3 className="h-3 w-3" /> Category Breakdown
+                      </p>
+                      {ds.categoryBreakdown.map((cb) => (
+                        <div key={cb.category} className="flex justify-between text-xs">
+                          <span className="text-muted-foreground">{cb.category}</span>
+                          <span className="font-medium">{cb.count} products · {cb.stock} units</span>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
         </TabsContent>
