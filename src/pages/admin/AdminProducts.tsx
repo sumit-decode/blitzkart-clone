@@ -1,10 +1,11 @@
 import { useState, useMemo } from "react";
+import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Package, Warehouse, AlertTriangle, BarChart3 } from "lucide-react";
+import { Package, Warehouse, AlertTriangle, BarChart3, ChevronRight } from "lucide-react";
 import { getStockByDarkstore, darkstoreProducts, darkstores } from "@/data/mockDarkstores";
 import { categories } from "@/data/products";
 
