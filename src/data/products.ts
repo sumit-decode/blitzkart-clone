@@ -53,6 +53,17 @@ import nailPolish from "@/assets/products/nail-polish.png";
 import faceMask from "@/assets/products/face-mask.png";
 import bodyLotion from "@/assets/products/body-lotion.png";
 
+import pujaThali from "@/assets/products/puja-thali.png";
+import agarbatti from "@/assets/products/agarbatti.png";
+import ghee from "@/assets/products/ghee.png";
+import camphor from "@/assets/products/camphor.png";
+import coconut from "@/assets/products/coconut.png";
+import ladoo from "@/assets/products/ladoo.png";
+import kumkum from "@/assets/products/kumkum.png";
+import diyaSet from "@/assets/products/diya-set.png";
+import flowerGarland from "@/assets/products/flower-garland.png";
+import haldi from "@/assets/products/haldi.png";
+
 export interface ProductData {
   name: string;
   price: number;
