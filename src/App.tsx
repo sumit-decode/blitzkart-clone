@@ -25,6 +25,7 @@ import AdminDelivery from "./pages/admin/AdminDelivery.tsx";
 import AdminCoverage from "./pages/admin/AdminCoverage.tsx";
 import AdminAnalytics from "./pages/admin/AdminAnalytics.tsx";
 import AdminSettings from "./pages/admin/AdminSettings.tsx";
+import AdminDarkstoreDetail from "./pages/admin/AdminDarkstoreDetail.tsx";
 
 const queryClient = new QueryClient();
 
@@ -53,6 +54,7 @@ const App = () => (
                     <Route index element={<AdminDashboard />} />
                     <Route path="orders" element={<AdminOrders />} />
                     <Route path="products" element={<AdminProducts />} />
+                    <Route path="products/:darkstoreId" element={<AdminDarkstoreDetail />} />
                     <Route path="sellers" element={<AdminSellers />} />
                     <Route path="inventory" element={<Inventory />} />
                     <Route path="delivery" element={<AdminDelivery />} />
