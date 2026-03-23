@@ -158,9 +158,10 @@ const AdminCoverage = () => {
             {cityStats
               .filter((cs) => selectedCity === "all" || cs.city === selectedCity)
               .map((cs) => (
-                <div
+                <Link
                   key={cs.city}
-                  className="relative rounded-xl border border-border p-4 hover:shadow-md hover:border-primary/40 transition-all"
+                  to={`/admin/coverage/${encodeURIComponent(cs.city)}`}
+                  className="relative rounded-xl border border-border p-4 hover:shadow-md hover:border-primary/40 transition-all cursor-pointer group block"
                 >
                   <div className="flex items-center gap-3 mb-3">
                     <div className={`w-3 h-3 rounded-full ${cityColors[cs.city] || "bg-muted-foreground"}`} />
