@@ -1,9 +1,10 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
-  MapPin, Warehouse, Package, Users, Truck, CheckCircle2, Clock, AlertTriangle,
+  MapPin, Warehouse, Package, Users, Truck, CheckCircle2, Clock, AlertTriangle, ChevronRight,
 } from "lucide-react";
 import { darkstores, getStockByDarkstore, generateMockOrders } from "@/data/mockDarkstores";
 
@@ -157,13 +158,15 @@ const AdminCoverage = () => {
             {cityStats
               .filter((cs) => selectedCity === "all" || cs.city === selectedCity)
               .map((cs) => (
-                <div
+                <Link
                   key={cs.city}
-                  className="relative rounded-xl border border-border p-4 hover:shadow-md hover:border-primary/40 transition-all"
+                  to={`/admin/coverage/${encodeURIComponent(cs.city)}`}
+                  className="relative rounded-xl border border-border p-4 hover:shadow-md hover:border-primary/40 transition-all cursor-pointer group block"
                 >
                   <div className="flex items-center gap-3 mb-3">
                     <div className={`w-3 h-3 rounded-full ${cityColors[cs.city] || "bg-muted-foreground"}`} />
                     <h3 className="font-heading font-bold text-foreground">{cs.city}</h3>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors ml-auto mr-1" />
                     <Badge
                       variant={cs.status === "active" ? "default" : "secondary"}
                       className="ml-auto text-[10px]"
@@ -208,7 +211,7 @@ const AdminCoverage = () => {
                       </div>
                     )}
                   </div>
-                </div>
+                </Link>
               ))}
           </div>
         </CardContent>
