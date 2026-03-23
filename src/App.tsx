@@ -26,6 +26,7 @@ import AdminCoverage from "./pages/admin/AdminCoverage.tsx";
 import AdminAnalytics from "./pages/admin/AdminAnalytics.tsx";
 import AdminSettings from "./pages/admin/AdminSettings.tsx";
 import AdminDarkstoreDetail from "./pages/admin/AdminDarkstoreDetail.tsx";
+import AdminCoverageDetail from "./pages/admin/AdminCoverageDetail.tsx";
 
 const queryClient = new QueryClient();
 
