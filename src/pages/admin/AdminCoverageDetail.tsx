@@ -296,7 +296,7 @@ const AdminCoverageDetail = () => {
                   <TableHead className="text-right">Orders</TableHead>
                   <TableHead className="text-right">Revenue</TableHead>
                   <TableHead>Health</TableHead>
-                </tr>
+                </TableRow>
               </TableHeader>
               <TableBody>
                 {cityDarkstores.map((ds) => {
