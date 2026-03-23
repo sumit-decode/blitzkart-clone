@@ -1,9 +1,10 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
-  MapPin, Warehouse, Package, Users, Truck, CheckCircle2, Clock, AlertTriangle,
+  MapPin, Warehouse, Package, Users, Truck, CheckCircle2, Clock, AlertTriangle, ChevronRight,
 } from "lucide-react";
 import { darkstores, getStockByDarkstore, generateMockOrders } from "@/data/mockDarkstores";
 
