@@ -8,11 +8,25 @@ export interface Darkstore {
 }
 
 export const darkstores: Darkstore[] = [
-  { id: "DS-001", name: "BlitzKart Central Hub", area: "Connaught Place", city: "Delhi" },
-  { id: "DS-002", name: "BlitzKart South Store", area: "Koramangala", city: "Bangalore" },
-  { id: "DS-003", name: "BlitzKart West Depot", area: "Andheri West", city: "Mumbai" },
-  { id: "DS-004", name: "BlitzKart East Point", area: "Salt Lake", city: "Kolkata" },
-  { id: "DS-005", name: "BlitzKart North Hub", area: "Sector 18", city: "Noida" },
+  // Kolkata
+  { id: "DS-001", name: "BlitzKart Howrah Hub", area: "Howrah", city: "Kolkata" },
+  { id: "DS-002", name: "BlitzKart Salt Lake Store", area: "Bidhannagar (Salt Lake)", city: "Kolkata" },
+  { id: "DS-003", name: "BlitzKart New Town Depot", area: "New Town", city: "Kolkata" },
+  { id: "DS-004", name: "BlitzKart Sealdah Point", area: "Sealdah", city: "Kolkata" },
+  { id: "DS-005", name: "BlitzKart Barrackpore Hub", area: "Barrackpore", city: "Kolkata" },
+  // Delhi
+  { id: "DS-006", name: "BlitzKart Delhi Central", area: "Connaught Place", city: "Delhi" },
+  { id: "DS-007", name: "BlitzKart Delhi South", area: "Saket", city: "Delhi" },
+  // Chennai
+  { id: "DS-008", name: "BlitzKart Chennai Hub", area: "T. Nagar", city: "Chennai" },
+  { id: "DS-009", name: "BlitzKart Chennai East", area: "Adyar", city: "Chennai" },
+  // Bangalore
+  { id: "DS-010", name: "BlitzKart Bangalore Central", area: "Koramangala", city: "Bangalore" },
+  { id: "DS-011", name: "BlitzKart Bangalore North", area: "Hebbal", city: "Bangalore" },
+  // Maharashtra
+  { id: "DS-012", name: "BlitzKart Mumbai West", area: "Andheri West", city: "Mumbai" },
+  { id: "DS-013", name: "BlitzKart Pune Hub", area: "Hinjewadi", city: "Pune" },
+  { id: "DS-014", name: "BlitzKart Nagpur Store", area: "Dharampeth", city: "Nagpur" },
 ];
 
 // Generate mock product stock per darkstore
