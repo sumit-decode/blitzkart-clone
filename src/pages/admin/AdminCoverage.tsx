@@ -211,7 +211,7 @@ const AdminCoverage = () => {
                       </div>
                     )}
                   </div>
-                </div>
+                </Link>
               ))}
           </div>
         </CardContent>

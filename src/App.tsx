@@ -60,6 +60,7 @@ const App = () => (
                     <Route path="inventory" element={<Inventory />} />
                     <Route path="delivery" element={<AdminDelivery />} />
                     <Route path="coverage" element={<AdminCoverage />} />
+                    <Route path="coverage/:cityName" element={<AdminCoverageDetail />} />
                     <Route path="analytics" element={<AdminAnalytics />} />
                     <Route path="settings" element={<AdminSettings />} />
                   </Route>
