@@ -166,6 +166,7 @@ const AdminCoverage = () => {
                   <div className="flex items-center gap-3 mb-3">
                     <div className={`w-3 h-3 rounded-full ${cityColors[cs.city] || "bg-muted-foreground"}`} />
                     <h3 className="font-heading font-bold text-foreground">{cs.city}</h3>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors ml-auto mr-1" />
                     <Badge
                       variant={cs.status === "active" ? "default" : "secondary"}
                       className="ml-auto text-[10px]"
