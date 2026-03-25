@@ -7,6 +7,7 @@ export interface Review {
   rating: number;
   title: string;
   comment: string;
+  photos?: string[]; // base64 data URLs
   createdAt: number;
 }
 

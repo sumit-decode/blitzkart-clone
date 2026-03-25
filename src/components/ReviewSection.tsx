@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Star } from "lucide-react";
+import { useState, useRef } from "react";
+import { Star, Camera, X, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -7,10 +7,46 @@ import { useReviews } from "@/contexts/ReviewContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 interface ReviewSectionProps {
   productName: string;
 }
+
+const MAX_PHOTOS = 4;
+const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+
+const compressImage = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const maxDim = 800;
+        let w = img.width;
+        let h = img.height;
+        if (w > maxDim || h > maxDim) {
+          if (w > h) { h = (h / w) * maxDim; w = maxDim; }
+          else { w = (w / h) * maxDim; h = maxDim; }
+        }
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext("2d")!;
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL("image/jpeg", 0.7));
+      };
+      img.onerror = reject;
+      img.src = e.target?.result as string;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+};
 
 const StarRating = ({
   rating,
@@ -46,6 +82,21 @@ const StarRating = ({
   );
 };
 
+const PhotoLightbox = ({ src }: { src: string }) => (
+  <Dialog>
+    <DialogTrigger asChild>
+      <img
+        src={src}
+        alt="Review photo"
+        className="h-20 w-20 rounded-lg object-cover cursor-pointer border border-border hover:opacity-80 transition-opacity"
+      />
+    </DialogTrigger>
+    <DialogContent className="max-w-2xl p-2 bg-background">
+      <img src={src} alt="Review photo full" className="w-full h-auto rounded-lg" />
+    </DialogContent>
+  </Dialog>
+);
+
 const ReviewSection = ({ productName }: ReviewSectionProps) => {
   const { getProductReviews, getAverageRating, addReview } = useReviews();
   const { user, isLoggedIn } = useAuth();
@@ -56,6 +107,48 @@ const ReviewSection = ({ productName }: ReviewSectionProps) => {
   const [rating, setRating] = useState(0);
   const [title, setTitle] = useState("");
   const [comment, setComment] = useState("");
+  const [photos, setPhotos] = useState<string[]>([]);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+
+    const remaining = MAX_PHOTOS - photos.length;
+    if (remaining <= 0) {
+      toast.error(`Maximum ${MAX_PHOTOS} photos allowed`);
+      return;
+    }
+
+    const selected = files.slice(0, remaining);
+    const oversized = selected.filter((f) => f.size > MAX_FILE_SIZE);
+    if (oversized.length > 0) {
+      toast.error("Each photo must be under 2MB");
+      return;
+    }
+
+    const invalid = selected.filter((f) => !f.type.startsWith("image/"));
+    if (invalid.length > 0) {
+      toast.error("Only image files are allowed");
+      return;
+    }
+
+    setUploading(true);
+    try {
+      const compressed = await Promise.all(selected.map(compressImage));
+      setPhotos((prev) => [...prev, ...compressed].slice(0, MAX_PHOTOS));
+    } catch {
+      toast.error("Failed to process images");
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
+  const removePhoto = (index: number) => {
+    setPhotos((prev) => prev.filter((_, i) => i !== index));
+  };
 
   const handleSubmit = () => {
     if (rating === 0) {
@@ -73,11 +166,13 @@ const ReviewSection = ({ productName }: ReviewSectionProps) => {
       rating,
       title: title.trim().slice(0, 100),
       comment: comment.trim().slice(0, 500),
+      photos: photos.length > 0 ? photos : undefined,
     });
 
     setRating(0);
     setTitle("");
     setComment("");
+    setPhotos([]);
     setShowForm(false);
     toast.success("Review submitted! Thank you 🎉");
   };
@@ -181,9 +276,60 @@ const ReviewSection = ({ productName }: ReviewSectionProps) => {
                 rows={3}
               />
             </div>
+
+            {/* Photo Upload */}
+            <div>
+              <label className="text-sm font-medium text-foreground font-body mb-2 block">
+                Add Photos <span className="text-muted-foreground font-normal">(optional, max {MAX_PHOTOS})</span>
+              </label>
+              <div className="flex flex-wrap gap-3 items-center">
+                {photos.map((photo, i) => (
+                  <div key={i} className="relative group/photo">
+                    <img
+                      src={photo}
+                      alt={`Upload ${i + 1}`}
+                      className="h-20 w-20 rounded-lg object-cover border border-border"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removePhoto(i)}
+                      className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center opacity-0 group-hover/photo:opacity-100 transition-opacity"
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                  </div>
+                ))}
+                {photos.length < MAX_PHOTOS && (
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={uploading}
+                    className="h-20 w-20 rounded-lg border-2 border-dashed border-muted-foreground/30 flex flex-col items-center justify-center gap-1 hover:border-primary hover:bg-primary/5 transition-colors text-muted-foreground hover:text-primary disabled:opacity-50"
+                  >
+                    {uploading ? (
+                      <div className="h-5 w-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                      <>
+                        <Camera className="h-5 w-5" />
+                        <span className="text-[10px] font-body">Add</span>
+                      </>
+                    )}
+                  </button>
+                )}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="hidden"
+                  onChange={handleFileSelect}
+                />
+              </div>
+            </div>
+
             <div className="flex gap-2">
               <Button onClick={handleSubmit}>Submit Review</Button>
-              <Button variant="outline" onClick={() => setShowForm(false)}>
+              <Button variant="outline" onClick={() => { setShowForm(false); setPhotos([]); }}>
                 Cancel
               </Button>
             </div>
@@ -231,6 +377,15 @@ const ReviewSection = ({ productName }: ReviewSectionProps) => {
                 {review.title}
               </h4>
               <p className="text-sm text-muted-foreground font-body">{review.comment}</p>
+
+              {/* Review Photos */}
+              {review.photos && review.photos.length > 0 && (
+                <div className="flex gap-2 pt-1">
+                  {review.photos.map((photo, i) => (
+                    <PhotoLightbox key={i} src={photo} />
+                  ))}
+                </div>
+              )}
             </motion.div>
           ))}
         </div>
