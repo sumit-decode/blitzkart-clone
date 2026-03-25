@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Search, ShoppingCart, MapPin, User, Package, Truck, Sun, Moon, LogOut, ChevronDown } from "lucide-react";
+import { Search, ShoppingCart, MapPin, User, Package, Truck, Sun, Moon, LogOut, ChevronDown, Loader2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +8,14 @@ import { useCart } from "@/contexts/CartContext";
 import { allProducts } from "@/data/products";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const ThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
